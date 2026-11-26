@@ -1,5 +1,6 @@
 const authService = require("../services/auth.service");
 
+
 const register = async (req, res) => {
     try {
         const user = await authService.registerUser(req.body);
@@ -49,4 +50,29 @@ const login = async (req, res) => {
 };
 
 
-module.exports = { register,login };
+const getMe = (req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "User details retrieved successfully",
+        data: {
+            id: req.user._id,
+            displayName: req.user.displayName,
+            email: req.user.email,
+            role: req.user.role
+        }
+    });
+};
+
+const authorAccess = (req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "Welcome to the Author dashboard",
+        data: {
+            displayName: req.user.displayName,
+            role: req.user.role
+        }
+    });
+};
+
+
+module.exports = { register,login,getMe,authorAccess  };
